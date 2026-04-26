@@ -124,19 +124,14 @@ O objetivo é chegar até a área final (linha de chegada) de cada fase.
 
 ```
 Mestre-do-Parkour/
-│
-├── main.py
-├── config.py
-├── player.py
-├── plataforma.py
-│
 ├── assets/
 │   └── fundo.jpeg
-│
 ├── fases/
-│   ├── fase1.py
-│   ├── fase2.py
-│   └── fase3.py
+├── config.py
+├── main.py
+├── plataforma.py
+├── player.py
+└── README.md
 ```
 
 ---
