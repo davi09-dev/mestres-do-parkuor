@@ -27,7 +27,7 @@ O objetivo é chegar até a área final (linha de chegada) de cada fase.
 
 ## 4. Personagem Principal
 
-* **Quem é:** Um praticante de parkour
+* **Quem é:** Um praticante de parkour(não confirmado)
 * **Movimento:** Anda para esquerda/direita e pula
 * **Atributos:**
 
@@ -39,7 +39,7 @@ O objetivo é chegar até a área final (linha de chegada) de cada fase.
 
 ## 5. Inimigos e Obstáculos
 
-* **Inimigos:** Não há inimigos
+* **Inimigos:** Não há inimigos(pode mudar futuramente)
 
 * **Obstáculos:**
 
@@ -64,6 +64,7 @@ O objetivo é chegar até a área final (linha de chegada) de cada fase.
   * Área de chegada
 
 * **Objetivo final:** Localizado no final da fase
+* Chance de implementação de outros objetivos futuramente
 
 ---
 
@@ -157,16 +158,17 @@ Mestre-do-Parkour/
 * Novas fases
 * Sistema de checkpoints
 * Diferentes tipos de plataformas
+* bloqueio das fases( o jogador deve concluir alguma fase primeiro)
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 * Python
 * Pygame
 
 ---
 
-## 📌 Status do Projeto
+##  Status do Projeto
 
-Em desenvolvimento 🚧
+Em desenvolvimento 
