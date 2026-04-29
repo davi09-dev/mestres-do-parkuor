@@ -163,7 +163,7 @@ Mestre-do-Parkour/
 
 ---
 
-##  Tecnologias Utilizadas
+##  Tecnologias utilizadas
 
 * Python
 * Pygame
