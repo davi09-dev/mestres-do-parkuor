@@ -1,0 +1,10 @@
+largura = 1000
+altura = 600
+fps = 60
+gravidade = 0.8
+cor_fundo = (30, 30, 30)
+cor_plataforma = (70, 70, 70)
+cor_player = (255, 0, 0)
+cor_chegada = (0, 255, 0)
+cor_texto = (255, 255, 255)
+suavidade_camera = 0.1
