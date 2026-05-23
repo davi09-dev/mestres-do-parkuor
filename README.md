@@ -93,7 +93,7 @@ O objetivo é chegar até a área final (linha de chegada) de cada fase.
 | ESPAÇO  | Pular                  |
 | 1, 2, 3 | Escolher fase          |
 | R       | Reiniciar (na vitória) |
-
+| Q       | Dash                   |
 ---
 
 ## 10. Fluxo do Jogo
