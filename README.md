@@ -151,19 +151,67 @@ Mestre-do-Parkour/
 
 ## 14. Melhorias Futuras
 
-* Sistema de pontuação
-* Animações do personagem
-* Efeitos sonoros e música
-* Novas fases
-* Sistema de checkpoints
-* Diferentes tipos de plataformas
+CRONOGRAMA
+
+Semana 1 — Base do jogo
+- melhorar colisão
+- ajustar física
+- melhorar câmera
+- corrigir bugs
+- estabilizar movimentação
+- retirar a mecânica de dash (causa bugs e não se encaixa na proposta do jogo)
+
+---
+
+Semana 2 — Construção da fase
+- aumentar mapa
+- criar mais fases
+- melhorar parkour
+- ajustar dificuldade
+- melhorar posicionamento dos prédios
+- criar pulos mais interessantes
+
+---
+
+Semana 3 — Visual
+- criar o personagem e suas animações(ainda não será adicionado no jogo)
+- textura dos prédios
+- criação do senário(ainda não vai estar no jogo)
+- HUD
+- melhorar tela inicial
+- melhorar tela de vitória
+
+---
+ Semana 4 — Organização do código
+- adicionar herança
+- criar classe Objeto
+- limpar código
+- organizar melhor arquivos
+
+---
+
+Semana 5 — Nova mecânica: Pulo Duplo
+- adicionar pulo duplo
+- ajustar altura do segundo pulo
+- equilibrar dificuldade da fase
+- criar partes da fase usando o pulo duplo
+- adicionar efeito visual simples no segundo pulo
+
+---
+
+Semana 6 — Polimento final
+- corrigir bugs
+- testar tudo
+- melhorar detalhes
+- organizar GitHub
+- adicionar o personagem e o senário
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-* Python
-* Pygame
+* Python(3.11)
+* Pygame(2.6.1)
 
 ---
 
