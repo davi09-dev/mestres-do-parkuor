@@ -61,9 +61,6 @@ while rodando:
                 if evento.key == pygame.K_SPACE:
                     player.pular()
 
-                if evento.key == pygame.K_q:
-                    player.dash()
-
             elif estado == "vitoria":
 
                 if evento.key == pygame.K_r:
@@ -100,8 +97,7 @@ while rodando:
             alvo_camera - camera_x
         ) * suavidade_camera
 
-        if camera_x < 0:
-            camera_x = 0
+        camera_x = max(0, camera_x)
 
         # morte
         if resultado == "morreu":
@@ -119,6 +115,8 @@ while rodando:
         if player.rect.colliderect(
             fase.chegada
         ):
+            player.vel_x = 0   
+            player.vel_y = 0         
 
             estado = "vitoria"
 
