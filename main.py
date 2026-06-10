@@ -16,7 +16,7 @@ pygame.display.set_caption(
 
 clock = pygame.time.Clock()
 
-fonte = pygame.font.SysFont(None, 48)
+fonte = pygame.font.SysFont(None, 36)
 
 estado = "menu"
 
@@ -34,6 +34,14 @@ camera_x = 0
 
 rodando = True
 
+opcoes_menu = [
+    "Jogar",
+    "Creditos",
+    "Sair"
+]
+
+opcao_selecionada = 0
+
 while rodando:
 
     clock.tick(fps)
@@ -46,6 +54,33 @@ while rodando:
         if evento.type == pygame.KEYDOWN:
 
             if estado == "menu":
+
+                if evento.key == pygame.K_UP:
+                    opcao_selecionada -= 1
+
+                elif evento.key == pygame.K_DOWN:
+                    opcao_selecionada += 1
+
+                opcao_selecionada %= len(opcoes_menu)
+
+                if evento.key == pygame.K_RETURN:
+
+                    if opcao_selecionada == 0:
+
+                        player.resetar(
+                            spawn_x,
+                            spawn_y
+                        )
+
+                        estado = "jogo"
+
+                    elif opcao_selecionada == 1:
+
+                        pass
+
+                    elif opcao_selecionada == 2:
+
+                        rodando = False
 
                 if evento.key == pygame.K_SPACE:
 
@@ -73,13 +108,37 @@ while rodando:
     # MENU
     if estado == "menu":
 
-        texto = fonte.render(
-            "Pressione ESPAÇO",
-            True,
-            cor_texto
+        titulo = fonte.render(
+    "MESTRE DO PARKOUR",
+    True,
+    cor_texto
+)
+
+        tela.blit(
+            titulo,
+            (
+                largura // 2 - titulo.get_width() // 2,
+                120
+            )
         )
 
-        tela.blit(texto, (250, 250))
+        for i, opcao in enumerate(opcoes_menu):
+
+            prefixo = "> " if i == opcao_selecionada else "  "
+
+            texto = fonte.render(
+            prefixo + opcao,
+            True,
+            cor_texto
+            )
+
+            tela.blit(
+                texto,
+                (
+                    largura // 2 - texto.get_width() // 2,
+                    240 + i * 50
+                )
+            )
 
     # JOGO
     elif estado == "jogo":
