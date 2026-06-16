@@ -2,55 +2,77 @@ import pygame
 from plataforma import Plataforma
 from config import cor_chegada
 
+
 class Fase1:
 
     def __init__(self):
 
         self.plataformas = []
 
-        # spawn
-        self.plataformas.append(
-            Plataforma(80, 300, 140, 20)
-        )
-
-        plataformas_dados = [
-
-            (300, 420, 120, 300),
-            (520, 360, 100, 300),
-            (820, 300, 120, 300),
-            (1050, 420, 100, 300),
-            (1250, 350, 100, 300),
-            (1450, 280, 100, 320),
-            (1650, 380, 80, 250),
-            (1820, 340, 80, 260),
-            (1980, 300, 80, 300),
-            (2250, 260, 120, 340),
-            (2600, 360, 100, 240),
-            (2780, 420, 100, 180),
-            (3050, 350, 120, 250),
-            (3280, 280, 120, 320),
-            (3600, 220, 200, 400)
-        ]
-
-        for dados in plataformas_dados:
-
-            x, y, largura, altura = dados
-
-            self.plataformas.append(
-                Plataforma(x, y, largura, altura)
-            )
+        self.criar_plataformas()
 
         self.chegada = pygame.Rect(
-            3670,
-            160,
+            5700,
+            180,
             60,
             60
         )
 
+    def criar_plataformas(self):
+
+        predios = [
+
+            # Spawn
+            {"x": 80, "y": 300, "largura": 140, "altura": 20},
+
+    
+            {"x": 300, "y": 420, "largura": 120, "altura": 300},
+            {"x": 520, "y": 360, "largura": 100, "altura": 300},
+            {"x": 760, "y": 280, "largura": 120, "altura": 340},
+
+
+            {"x": 1050, "y": 420, "largura": 90, "altura": 250},
+            {"x": 1230, "y": 340, "largura": 90, "altura": 280},
+            {"x": 1450, "y": 250, "largura": 80, "altura": 350},
+
+    
+            {"x": 1620, "y": 380, "largura": 70, "altura": 220},
+            {"x": 1760, "y": 320, "largura": 70, "altura": 280},
+            {"x": 1900, "y": 260, "largura": 70, "altura": 340},
+
+    
+            {"x": 2200, "y": 360, "largura": 100, "altura": 240},
+            {"x": 2480, "y": 300, "largura": 90, "altura": 300},
+            {"x": 2800, "y": 400, "largura": 80, "altura": 200},
+
+            # Final
+            {"x": 3200, "y": 340, "largura": 100, "altura": 260},
+            {"x": 3550, "y": 260, "largura": 100, "altura": 340},
+            {"x": 3950, "y": 180, "largura": 120, "altura": 420},
+
+
+            {"x": 4400, "y": 340, "largura": 80, "altura": 260},
+            {"x": 4700, "y": 280, "largura": 80, "altura": 320},
+            {"x": 5100, "y": 220, "largura": 100, "altura": 380},
+
+            # Prédio final
+            {"x": 5600, "y": 240, "largura": 180, "altura": 360},
+        ]
+
+        for predio in predios:
+
+            self.plataformas.append(
+                Plataforma(
+                    predio["x"],
+                    predio["y"],
+                    predio["largura"],
+                    predio["altura"]
+                )
+            )
+
     def desenhar(self, tela, camera_x):
 
         for plataforma in self.plataformas:
-
             plataforma.desenhar(tela, camera_x)
 
         pygame.draw.rect(
