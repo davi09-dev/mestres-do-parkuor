@@ -53,6 +53,7 @@ while rodando:
 
         if evento.type == pygame.KEYDOWN:
 
+            # MENU
             if estado == "menu":
 
                 if evento.key == pygame.K_UP:
@@ -65,6 +66,7 @@ while rodando:
 
                 if evento.key == pygame.K_RETURN:
 
+                    # Jogar
                     if opcao_selecionada == 0:
 
                         player.resetar(
@@ -72,30 +74,33 @@ while rodando:
                             spawn_y
                         )
 
+                        camera_x = 0
+
                         estado = "jogo"
 
+                    # Créditos
                     elif opcao_selecionada == 1:
 
-                        pass
+                        estado = "creditos"
 
+                    # Sair
                     elif opcao_selecionada == 2:
 
                         rodando = False
 
-                if evento.key == pygame.K_SPACE:
-
-                    player.resetar(
-                        spawn_x,
-                        spawn_y
-                    )
-
-                    estado = "jogo"
-
+            # JOGO
             elif estado == "jogo":
 
                 if evento.key == pygame.K_SPACE:
                     player.pular()
 
+            # CRÉDITOS
+            elif estado == "creditos":
+
+                if evento.key == pygame.K_ESCAPE:
+                    estado = "menu"
+
+            # VITÓRIA
             elif estado == "vitoria":
 
                 if evento.key == pygame.K_r:
@@ -105,14 +110,15 @@ while rodando:
 
     tela.fill(cor_fundo)
 
-    # MENU
+    # ================= MENU =================
+
     if estado == "menu":
 
         titulo = fonte.render(
-    "MESTRE DO PARKOUR",
-    True,
-    cor_texto
-)
+            "MESTRE DO PARKOUR",
+            True,
+            cor_texto
+        )
 
         tela.blit(
             titulo,
@@ -127,9 +133,9 @@ while rodando:
             prefixo = "> " if i == opcao_selecionada else "  "
 
             texto = fonte.render(
-            prefixo + opcao,
-            True,
-            cor_texto
+                prefixo + opcao,
+                True,
+                cor_texto
             )
 
             tela.blit(
@@ -140,7 +146,8 @@ while rodando:
                 )
             )
 
-    # JOGO
+    # ================= JOGO =================
+
     elif estado == "jogo":
 
         player.mover(teclas)
@@ -174,8 +181,9 @@ while rodando:
         if player.rect.colliderect(
             fase.chegada
         ):
-            player.vel_x = 0   
-            player.vel_y = 0         
+
+            player.vel_x = 0
+            player.vel_y = 0
 
             estado = "vitoria"
 
@@ -189,7 +197,62 @@ while rodando:
             camera_x
         )
 
-    # VITÓRIA
+    # ================= CRÉDITOS =================
+
+    elif estado == "creditos":
+
+        titulo = fonte.render(
+            "CREDITOS",
+            True,
+            cor_texto
+        )
+
+        tela.blit(
+            titulo,
+            (
+                largura // 2 - titulo.get_width() // 2,
+                100
+            )
+        )
+
+        nomes = [
+            "Davi Araujo",
+            "Ytalo Kaua",
+            "Pablo Lorran"
+        ]
+
+        for i, nome in enumerate(nomes):
+
+            texto = fonte.render(
+                nome,
+                True,
+                cor_texto
+            )
+
+            tela.blit(
+                texto,
+                (
+                    largura // 2 - texto.get_width() // 2,
+                    200 + i * 50
+                )
+            )
+
+        voltar = fonte.render(
+            "Pressione ESC para voltar",
+            True,
+            cor_texto
+        )
+
+        tela.blit(
+            voltar,
+            (
+                largura // 2 - voltar.get_width() // 2,
+                430
+            )
+        )
+
+    # ================= VITÓRIA =================
+
     elif estado == "vitoria":
 
         texto = fonte.render(
@@ -198,7 +261,27 @@ while rodando:
             cor_texto
         )
 
-        tela.blit(texto, (280, 250))
+        tela.blit(
+            texto,
+            (
+                largura // 2 - texto.get_width() // 2,
+                250
+            )
+        )
+
+        reiniciar = fonte.render(
+            "Pressione R para voltar ao menu",
+            True,
+            cor_texto
+        )
+
+        tela.blit(
+            reiniciar,
+            (
+                largura // 2 - reiniciar.get_width() // 2,
+                320
+            )
+        )
 
     pygame.display.update()
 
