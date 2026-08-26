@@ -41,22 +41,22 @@ class Fase1:
             {"x": 1900, "y": 260, "largura": 70, "altura": 340},
 
     
-            {"x": 2200, "y": 360, "largura": 100, "altura": 240},
-            {"x": 2480, "y": 300, "largura": 90, "altura": 300},
-            {"x": 2800, "y": 400, "largura": 80, "altura": 200},
+            {"x": 2000, "y": 360, "largura": 100, "altura": 240},
+            {"x": 2180, "y": 300, "largura": 90, "altura": 300},
+            {"x": 2350, "y": 400, "largura": 80, "altura": 200},
 
             # Final
-            {"x": 3200, "y": 340, "largura": 100, "altura": 260},
-            {"x": 3550, "y": 260, "largura": 100, "altura": 340},
-            {"x": 3950, "y": 180, "largura": 120, "altura": 420},
+            {"x": 2450, "y": 340, "largura": 100, "altura": 260},
+            {"x": 2640, "y": 260, "largura": 100, "altura": 340},
+            {"x": 2850, "y": 180, "largura": 120, "altura": 420},
 
 
-            {"x": 4400, "y": 340, "largura": 80, "altura": 260},
-            {"x": 4700, "y": 280, "largura": 80, "altura": 320},
-            {"x": 5100, "y": 220, "largura": 100, "altura": 380},
+            {"x": 3100, "y": 340, "largura": 80, "altura": 260},
+            {"x": 3260, "y": 280, "largura": 80, "altura": 320},
+            {"x": 3400, "y": 220, "largura": 100, "altura": 380},
 
             # Prédio final
-            {"x": 5600, "y": 240, "largura": 180, "altura": 360},
+            {"x": 3550, "y": 240, "largura": 180, "altura": 360},
         ]
 
         for predio in predios:
