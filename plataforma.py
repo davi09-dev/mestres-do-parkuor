@@ -1,10 +1,12 @@
-import pygame
+from entidade import Entidade
 from config import cor_plataforma
 
-class Plataforma:
+
+class Plataforma(Entidade):
 
     def __init__(self, x, y, largura, altura):
-        self.rect = pygame.Rect(
+
+        super().__init__(
             x,
             y,
             largura,
@@ -13,13 +15,8 @@ class Plataforma:
 
     def desenhar(self, tela, camera_x):
 
-        pygame.draw.rect(
+        super().desenhar(
             tela,
-            cor_plataforma,
-            (
-                self.rect.x - camera_x,
-                self.rect.y,
-                self.rect.width,
-                self.rect.height
-            )
+            camera_x,
+            cor_plataforma
         )

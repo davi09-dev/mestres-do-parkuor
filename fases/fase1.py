@@ -1,23 +1,32 @@
 import pygame
 from plataforma import Plataforma
-from config import cor_chegada
+from config import *
 
 
 class Fase1:
-
     def __init__(self):
 
         self.plataformas = []
 
+    # Carrega o fundo
+        self.fundo = pygame.image.load(
+        "assets/fundo.jpg"
+    ).convert()
+
+    # Ajusta o fundo ao tamanho da tela
+        self.fundo = pygame.transform.scale(
+            self.fundo,
+        (largura, altura)
+    )
+
         self.criar_plataformas()
 
         self.chegada = pygame.Rect(
-            5700,
-            180,
-            60,
-            60
-        )
-
+        3600,
+        180,
+        60,
+        60
+    )
     def criar_plataformas(self):
 
         predios = [
@@ -72,16 +81,34 @@ class Fase1:
 
     def desenhar(self, tela, camera_x):
 
-        for plataforma in self.plataformas:
-            plataforma.desenhar(tela, camera_x)
+    # Fundo repetido
+        largura_fundo = self.fundo.get_width()
 
-        pygame.draw.rect(
+        x_fundo = -(camera_x * 0.2) % largura_fundo
+
+        tela.blit(
+            self.fundo,
+            (x_fundo - largura_fundo, 0)
+    )
+
+        tela.blit(
+            self.fundo,
+        (x_fundo, 0)
+    )
+
+    # Prédios e plataformas
+        for plataforma in self.plataformas:
+            plataforma.desenhar(
             tela,
-            cor_chegada,
-            (
-                self.chegada.x - camera_x,
-                self.chegada.y,
-                self.chegada.width,
-                self.chegada.height
-            )
+            camera_x
         )
+
+    # Linha de chegada
+        pygame.draw.rect(tela,cor_chegada,
+        (
+            self.chegada.x - camera_x,
+            self.chegada.y,
+            self.chegada.width,
+            self.chegada.height
+        )
+    )
