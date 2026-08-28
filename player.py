@@ -15,6 +15,16 @@ class Player(Entidade):
             60
         )
 
+        # IMAGEM DO PLAYER
+        self.imagem = pygame.image.load(
+            "ChatGpt1.png"
+        ).convert_alpha()
+
+        self.imagem = pygame.transform.scale(
+            self.imagem,
+            (40, 60)
+        )
+
         self.vel_x = 0
         self.vel_y = 0
 
@@ -102,8 +112,11 @@ class Player(Entidade):
 
     def desenhar(self, tela, camera_x):
 
-        super().desenhar(
-            tela,
-            camera_x,
-            cor_player
+        # DESENHA A IMAGEM DO BONECO
+        tela.blit(
+            self.imagem,
+            (
+                self.rect.x - camera_x,
+                self.rect.y
+            )
         )
