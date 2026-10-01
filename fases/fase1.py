@@ -30,7 +30,7 @@ class Fase1:
 
         # Imagem da bandeira
         self.imagem_chegada = pygame.image.load(
-            "1000491456.png"
+            "assets\chegada.png"
         ).convert_alpha()
 
         self.imagem_chegada = pygame.transform.scale(

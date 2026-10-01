@@ -1,10 +1,12 @@
 import pygame
 
 
+# Classe base das entidades do jogo
 class Entidade:
 
     def __init__(self, x, y, largura, altura):
 
+        # Cria o retângulo que representa a entidade
         self.rect = pygame.Rect(
             x,
             y,
@@ -12,6 +14,8 @@ class Entidade:
             altura
         )
 
+
+# Desenha uma entidade como retângulo
     def desenhar(self, tela, camera_x, cor):
 
         pygame.draw.rect(
