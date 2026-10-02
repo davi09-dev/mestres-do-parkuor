@@ -1,20 +1,24 @@
 import pygame
 
-from plataforma import Plataforma
 from config import *
+from plataforma import Plataforma
 
 
-# Classe responsável pela segunda fase
+# ==================================================
+# CLASSE FASE 2
+# ==================================================
+
 class Fase2:
 
     def __init__(self):
 
-        # Lista que guarda todas as plataformas
-        self.plataformas = []
+        # ==================================================
+        # FUNDO
+        # ==================================================
 
-        # Carrega o fundo
+        # Carrega o cenário da Fase 2
         self.fundo = pygame.image.load(
-            "assets/fundo.jpg"
+            "assets/cenario2.jpg"
         ).convert()
 
         # Ajusta o fundo ao tamanho da tela
@@ -23,10 +27,82 @@ class Fase2:
             (largura, altura)
         )
 
-        # Cria as plataformas da fase
-        self.criar_plataformas()
+        self.largura_fundo = self.fundo.get_width()
 
-        # Define a área de chegada
+
+        # ==================================================
+        # PLATAFORMAS
+        # ==================================================
+
+        self.plataformas = []
+
+
+        # Plataforma inicial
+        self.plataformas.append(
+            Plataforma(
+                80,
+                300,
+                140,
+                20
+            )
+        )
+
+
+        # ==================================================
+        # PRÉDIOS
+        # ==================================================
+
+        predios = [
+
+            {"x": 300, "largura": 100, "altura": 220},
+            {"x": 500, "largura": 80, "altura": 300},
+            {"x": 700, "largura": 120, "altura": 180},
+            {"x": 920, "largura": 80, "altura": 250},
+            {"x": 1100, "largura": 100, "altura": 250},
+            {"x": 1300, "largura": 70, "altura": 350},
+            {"x": 1500, "largura": 100, "altura": 220},
+            {"x": 1700, "largura": 80, "altura": 330},
+            {"x": 1880, "largura": 70, "altura": 420},
+            {"x": 2070, "largura": 100, "altura": 280},
+            {"x": 2260, "largura": 80, "altura": 360},
+            {"x": 2440, "largura": 100, "altura": 200},
+            {"x": 2640, "largura": 80, "altura": 300},
+            {"x": 2830, "largura": 100, "altura": 400},
+            {"x": 3030, "largura": 80, "altura": 450},
+            {"x": 3220, "largura": 100, "altura": 250},
+            {"x": 3400, "largura": 80, "altura": 350},
+            {"x": 3650, "largura": 180, "altura": 390}
+        ]
+
+
+        # Cria as plataformas dos prédios
+        for predio in predios:
+
+            x = predio["x"]
+
+            altura_predio = predio["altura"]
+
+            # Calcula a posição Y do prédio
+            y = altura - altura_predio
+
+
+            plataforma = Plataforma(
+                x,
+                y,
+                predio["largura"],
+                altura_predio
+            )
+
+
+            self.plataformas.append(
+                plataforma
+            )
+
+
+        # ==================================================
+        # CHEGADA
+        # ==================================================
+
         self.chegada = pygame.Rect(
             3700,
             150,
@@ -34,104 +110,105 @@ class Fase2:
             60
         )
 
-        # Carrega a imagem da bandeira
+
+        # Carrega a bandeira
         self.imagem_chegada = pygame.image.load(
-            "assets\chegada.png"
+            "assets/chegada.png"
         ).convert_alpha()
 
-        # Define o tamanho da bandeira
+
+        # Ajusta o tamanho da bandeira
         self.imagem_chegada = pygame.transform.scale(
             self.imagem_chegada,
             (60, 60)
         )
 
 
-# Cria as plataformas da fase
-    def criar_plataformas(self):
+    # ==================================================
+    # DESENHO DA FASE
+    # ==================================================
 
-        # Lista com as posições e tamanhos dos prédios
-        predios = [
+    def desenhar(self, tela, camera_x):
 
-            # Spawn
-            {"x": 80, "y": 300, "largura": 120, "altura": 20},
+        # Desenha o fundo
+        tela.blit(
+            self.fundo,
+            (0, 0)
+        )
 
-            # Parte 1
-            {"x": 280, "y": 430, "largura": 80, "altura": 300},
-            {"x": 450, "y": 330, "largura": 70, "altura": 300},
-            {"x": 620, "y": 450, "largura": 70, "altura": 250},
-            {"x": 790, "y": 280, "largura": 80, "altura": 350},
 
-            # Parte 2
-            {"x": 1000, "y": 380, "largura": 70, "altura": 250},
-            {"x": 1160, "y": 250, "largura": 70, "altura": 380},
-            {"x": 1330, "y": 400, "largura": 60, "altura": 230},
-            {"x": 1480, "y": 220, "largura": 70, "altura": 410},
+        # ==================================================
+        # PLATAFORMA INICIAL
+        # ==================================================
 
-            # Parte 3
-            {"x": 1660, "y": 350, "largura": 60, "altura": 280},
-            {"x": 1810, "y": 180, "largura": 60, "altura": 450},
-            {"x": 1970, "y": 320, "largura": 60, "altura": 310},
-            {"x": 2130, "y": 150, "largura": 70, "altura": 480},
+        plataforma = self.plataformas[0]
 
-            # Parte 4
-            {"x": 2310, "y": 380, "largura": 60, "altura": 250},
-            {"x": 2460, "y": 250, "largura": 60, "altura": 380},
-            {"x": 2620, "y": 400, "largura": 60, "altura": 230},
-            {"x": 2780, "y": 200, "largura": 70, "altura": 430},
+        pygame.draw.rect(
+            tela,
+            cor_plataforma,
+            (
+                plataforma.rect.x - camera_x,
+                plataforma.rect.y,
+                plataforma.rect.width,
+                plataforma.rect.height
+            )
+        )
 
-            # Parte 5
-            {"x": 2960, "y": 340, "largura": 60, "altura": 290},
-            {"x": 3120, "y": 180, "largura": 70, "altura": 450},
-            {"x": 3290, "y": 300, "largura": 70, "altura": 330},
-            {"x": 3450, "y": 220, "largura": 80, "altura": 410},
 
-            # Prédio final
-            {"x": 3650, "y": 240, "largura": 180, "altura": 360},
-        ]
+        # ==================================================
+        # PRÉDIOS
+        # ==================================================
 
-        # Cria uma plataforma para cada prédio
-        for predio in predios:
+        for plataforma in self.plataformas[1:]:
 
-            self.plataformas.append(
-                Plataforma(
-                    predio["x"],
-                    predio["y"],
-                    predio["largura"],
-                    predio["altura"]
+            pygame.draw.rect(
+                tela,
+                cor_plataforma,
+                (
+                    plataforma.rect.x - camera_x,
+                    plataforma.rect.y,
+                    plataforma.rect.width,
+                    plataforma.rect.height
                 )
             )
 
 
-# Desenha todos os elementos da fase
-    def desenhar(self, tela, camera_x):
+            # Tamanho das janelas
+            tamanho_janela = 12
 
-        # Pega a largura do fundo
-        largura_fundo = self.fundo.get_width()
+            # Espaço entre as janelas
+            espaco = 25
 
-        # Calcula a posição do fundo com efeito de paralaxe
-        x_fundo = -(camera_x * 0.2) % largura_fundo
 
-        # Desenha uma cópia do fundo
-        tela.blit(
-            self.fundo,
-            (x_fundo - largura_fundo, 0)
-        )
+            # Cria as janelas
+            for y in range(
+                plataforma.rect.y + 20,
+                plataforma.rect.bottom - 10,
+                espaco
+            ):
 
-        # Desenha outra cópia do fundo
-        tela.blit(
-            self.fundo,
-            (x_fundo, 0)
-        )
+                for x in range(
+                    plataforma.rect.x + 15,
+                    plataforma.rect.right - 10,
+                    espaco
+                ):
 
-        # Desenha todas as plataformas
-        for plataforma in self.plataformas:
+                    pygame.draw.rect(
+                        tela,
+                        (255, 220, 50),
+                        (
+                            x - camera_x,
+                            y,
+                            tamanho_janela,
+                            tamanho_janela
+                        )
+                    )
 
-            plataforma.desenhar(
-                tela,
-                camera_x
-            )
 
-        # Desenha a bandeira
+        # ==================================================
+        # CHEGADA
+        # ==================================================
+
         tela.blit(
             self.imagem_chegada,
             (

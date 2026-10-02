@@ -2,12 +2,27 @@ from entidade import Entidade
 from config import cor_plataforma
 
 
-# Plataforma herda características de Entidade
+# ==================================================
+# CLASSE PLATAFORMA
+# ==================================================
+
+# Plataforma herda características da classe Entidade.
+#
+# Portanto, Plataforma possui:
+# - rect
+# - posição
+# - largura
+# - altura
+# - método desenhar()
+#
+# A herança evita que seja necessário
+# escrever tudo novamente.
 class Plataforma(Entidade):
 
     def __init__(self, x, y, largura, altura):
 
-        # Usa o construtor da classe Entidade
+        # Chama o construtor da classe Entidade
+        # usando super().
         super().__init__(
             x,
             y,
@@ -16,10 +31,11 @@ class Plataforma(Entidade):
         )
 
 
-# Desenha a plataforma
+    # Desenha a plataforma
     def desenhar(self, tela, camera_x):
 
-        # Usa o método desenhar da classe Entidade
+        # Reutiliza o método desenhar da classe Entidade,
+        # passando a cor específica da plataforma.
         super().desenhar(
             tela,
             camera_x,

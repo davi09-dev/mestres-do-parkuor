@@ -1,12 +1,18 @@
 import pygame
 
 
-# Classe base das entidades do jogo
+# ==================================================
+# CLASSE BASE DAS ENTIDADES
+# ==================================================
+
+# Entidade é a classe base usada por outros objetos
+# que possuem uma posição e um tamanho no jogo.
 class Entidade:
 
     def __init__(self, x, y, largura, altura):
 
-        # Cria o retângulo que representa a entidade
+        # Cria um Rect do Pygame para representar
+        # a posição e o tamanho da entidade.
         self.rect = pygame.Rect(
             x,
             y,
@@ -15,16 +21,21 @@ class Entidade:
         )
 
 
-# Desenha uma entidade como retângulo
+    # Desenha a entidade como um retângulo
     def desenhar(self, tela, camera_x, cor):
 
         pygame.draw.rect(
             tela,
             cor,
             (
+                # A câmera é descontada da posição X
+                # para criar o efeito de movimentação.
                 self.rect.x - camera_x,
+
                 self.rect.y,
+
                 self.rect.width,
+
                 self.rect.height
             )
         )
