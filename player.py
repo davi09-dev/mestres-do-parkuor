@@ -4,22 +4,10 @@ from config import *
 from entidade import Entidade
 
 
-# ==================================================
-# CLASSE PLAYER
-# ==================================================
-
-# Player também herda da classe Entidade.
-#
-# Assim, o jogador aproveita o rect criado
-# pela classe base.
 class Player(Entidade):
 
     def __init__(self, x, y):
 
-        # Chama o construtor da classe Entidade.
-        #
-        # O jogador possui 40 pixels de largura
-        # e 60 pixels de altura.
         super().__init__(
             x,
             y,
@@ -27,205 +15,322 @@ class Player(Entidade):
             60
         )
 
-
-        # ==================================================
-        # IMAGEM
-        # ==================================================
-
-        # Carrega a imagem do personagem
-        self.imagem = pygame.image.load(
-            "assets/personagem.png"
-        ).convert_alpha()
-
-        # Ajusta o tamanho da imagem
-        self.imagem = pygame.transform.scale(
-            self.imagem,
-            (40, 60)
-        )
-
-
-        # ==================================================
-        # MOVIMENTO
-        # ==================================================
-
-        # Velocidade horizontal
         self.vel_x = 0
-
-        # Velocidade vertical
         self.vel_y = 0
 
-        # Velocidade de movimento para os lados
         self.velocidade = 5
-
-        # Força aplicada quando o jogador pula
         self.forca_pulo = -14
 
-        # Indica se o jogador está sobre uma plataforma
         self.no_chao = False
 
+        self.direcao = 1
 
-    # ==================================================
-    # MOVIMENTAÇÃO
-    # ==================================================
+        self.frame = 0
+        self.tempo_animacao = 0
 
-    # Controla o movimento horizontal do jogador
+        # ================= SPRITES =================
+
+        self.sprite_andar = pygame.image.load(
+            "assets/andar_sprites.png"
+        ).convert_alpha()
+
+        self.sprite_pular = pygame.image.load(
+            "assets/pular_sprites.png"
+        ).convert_alpha()
+
+        # ================= ANDAR =================
+
+        # Linha de cima = esquerda
+        andar_esquerda = [
+            (36, 39, 238, 311),
+            (362, 40, 235, 310),
+            (697, 33, 243, 322),
+            (1031, 38, 237, 313),
+            (1369, 31, 230, 324),
+            (1762, 34, 180, 319)
+        ]
+
+        # Linha de baixo = direita
+        andar_direita = [
+            (36, 439, 211, 254),
+            (330, 435, 205, 261),
+            (656, 432, 227, 265),
+            (1005, 432, 215, 260),
+            (1328, 434, 216, 260),
+            (1756, 434, 147, 264)
+        ]
+
+        self.frames_andar_esquerda = self.carregar_frames(
+            self.sprite_andar,
+            andar_esquerda
+        )
+
+        self.frames_andar_direita = self.carregar_frames(
+            self.sprite_andar,
+            andar_direita
+        )
+
+        # ================= PULAR =================
+
+        # Linha de cima = direita
+        pular_direita = [
+            (27, 227, 181, 223),
+            (256, 224, 186, 231),
+            (483, 212, 179, 226),
+            (712, 161, 166, 217),
+            (936, 135, 167, 197),
+            (1154, 211, 166, 228),
+            (1354, 239, 193, 218),
+            (1565, 236, 181, 221)
+        ]
+
+        # Linha de baixo = esquerda
+        pular_esquerda = [
+            (55, 581, 180, 216),
+            (274, 584, 194, 219),
+            (495, 572, 183, 208),
+            (723, 527, 165, 200),
+            (945, 512, 158, 208),
+            (1163, 580, 165, 222),
+            (1396, 597, 159, 226),
+            (1598, 603, 158, 217)
+        ]
+
+        self.frames_pular_direita = self.carregar_frames(
+            self.sprite_pular,
+            pular_direita
+        )
+
+        self.frames_pular_esquerda = self.carregar_frames(
+            self.sprite_pular,
+            pular_esquerda
+        )
+
+        self.imagem = self.frames_andar_direita[0]
+
+    def carregar_frames(self, imagem, areas):
+
+        frames = []
+
+        for area in areas:
+
+            x, y, largura, altura = area
+
+            frame = imagem.subsurface(
+                pygame.Rect(
+                    x,
+                    y,
+                    largura,
+                    altura
+                )
+            ).copy()
+
+            # Mantém a proporção original
+            escala = min(
+                35 / largura,
+                35 / altura
+            )
+
+            nova_largura = int(largura * escala)
+            nova_altura = int(altura * escala)
+
+            frame = pygame.transform.scale(
+                frame,
+                (
+                    nova_largura,
+                    nova_altura
+                )
+            )
+
+            frames.append(frame)
+
+        return frames
+
     def mover(self, teclas):
 
-        # Começa cada atualização sem movimento horizontal
         self.vel_x = 0
 
-
-        # Movimento para a esquerda
-        if teclas[pygame.K_a] or teclas[pygame.K_LEFT]:
+        if teclas[pygame.K_a]:
 
             self.vel_x = -self.velocidade
+            self.direcao = -1
 
-
-        # Movimento para a direita
-        if teclas[pygame.K_d] or teclas[pygame.K_RIGHT]:
+        if teclas[pygame.K_d]:
 
             self.vel_x = self.velocidade
+            self.direcao = 1
 
-
-    # ==================================================
-    # PULO
-    # ==================================================
-
-    # Faz o jogador pular
     def pular(self):
 
-        # O jogador só pode pular quando está no chão
         if self.no_chao:
 
-            # Aplica a velocidade vertical do pulo
             self.vel_y = self.forca_pulo
-
-            # Agora o jogador está no ar
             self.no_chao = False
 
+            self.frame = 0
+            self.tempo_animacao = 0
 
-    # ==================================================
-    # ATUALIZAÇÃO
-    # ==================================================
-
-    # Atualiza movimento, gravidade e colisões
     def atualizar(self, plataformas):
 
-        # Aplica a gravidade à velocidade vertical
         self.vel_y += gravidade
 
-
-        # ==================================================
-        # MOVIMENTO HORIZONTAL
-        # ==================================================
-
+        # Movimento horizontal
         self.rect.x += self.vel_x
 
-
-        # Verifica colisões horizontais
+        # Colisão horizontal
         for plataforma in plataformas:
 
-            if self.rect.colliderect(
-                plataforma.rect
-            ):
+            if self.rect.colliderect(plataforma.rect):
 
-                # Colisão enquanto está indo para a direita
                 if self.vel_x > 0:
 
                     self.rect.right = plataforma.rect.left
 
-                # Colisão enquanto está indo para a esquerda
                 elif self.vel_x < 0:
 
                     self.rect.left = plataforma.rect.right
 
-
-        # ==================================================
-        # MOVIMENTO VERTICAL
-        # ==================================================
-
+        # Movimento vertical
         self.rect.y += self.vel_y
 
-
-        # Assume inicialmente que o jogador
-        # não está no chão
         self.no_chao = False
 
-
-        # Verifica colisões verticais
+        # Colisão vertical
         for plataforma in plataformas:
 
-            if self.rect.colliderect(
-                plataforma.rect
-            ):
+            if self.rect.colliderect(plataforma.rect):
 
-                # Jogador está caindo sobre uma plataforma
                 if self.vel_y > 0:
 
                     self.rect.bottom = plataforma.rect.top
-
-                    # Para a velocidade vertical
                     self.vel_y = 0
-
-                    # Confirma que está no chão
                     self.no_chao = True
 
+                    self.frame = 0
 
-                # Jogador está subindo e bateu
-                # na parte inferior da plataforma
                 elif self.vel_y < 0:
 
                     self.rect.top = plataforma.rect.bottom
-
-                    # Para a subida
                     self.vel_y = 0
 
+        # Animação
+        self.tempo_animacao += 1
 
-        # ==================================================
-        # QUEDA
-        # ==================================================
+        # PULANDO
+        if not self.no_chao:
 
-        # Se o jogador ultrapassar a altura da tela,
-        # significa que caiu do mapa.
+            if self.tempo_animacao >= 5:
+
+                self.tempo_animacao = 0
+                self.frame += 1
+
+                if self.frame >= 8:
+                    self.frame = 7
+
+        # NO CHÃO
+        else:
+
+            if self.vel_x != 0:
+
+                if self.tempo_animacao >= 5:
+
+                    self.tempo_animacao = 0
+                    self.frame += 1
+
+                    if self.frame >= 6:
+                        self.frame = 0
+
+            else:
+
+                self.frame = 0
+
+        # Morte
         if self.rect.y > altura:
 
             return "morreu"
 
-
-        # Se não morreu, não retorna nenhum resultado
         return None
 
-
-    # ==================================================
-    # RESET DO JOGADOR
-    # ==================================================
-
-    # Reinicia a posição e o movimento do jogador
     def resetar(self, x, y):
 
-        # Define a nova posição
         self.rect.x = x
         self.rect.y = y
 
-        # Zera as velocidades
         self.vel_x = 0
         self.vel_y = 0
 
-        # Começa sem estar no chão
         self.no_chao = False
 
+        self.frame = 0
+        self.tempo_animacao = 0
 
-    # ==================================================
-    # DESENHO
-    # ==================================================
-
-    # Desenha a imagem do jogador na tela
     def desenhar(self, tela, camera_x):
+
+        # ================= PULANDO =================
+
+        if not self.no_chao:
+
+            if self.direcao == 1:
+
+                self.imagem = self.frames_pular_direita[
+                    min(
+                        self.frame,
+                        len(self.frames_pular_direita) - 1
+                    )
+                ]
+
+            else:
+
+                self.imagem = self.frames_pular_esquerda[
+                    min(
+                        self.frame,
+                        len(self.frames_pular_esquerda) - 1
+                    )
+                ]
+
+        # ================= ANDANDO =================
+
+        elif self.vel_x != 0:
+
+            if self.direcao == 1:
+
+                self.imagem = self.frames_andar_direita[
+                    min(
+                        self.frame,
+                        len(self.frames_andar_direita) - 1
+                    )
+                ]
+
+            else:
+
+                self.imagem = self.frames_andar_esquerda[
+                    min(
+                        self.frame,
+                        len(self.frames_andar_esquerda) - 1
+                    )
+                ]
+
+        # ================= PARADO =================
+
+        else:
+
+            if self.direcao == 1:
+
+                self.imagem = self.frames_andar_direita[0]
+
+            else:
+
+                self.imagem = self.frames_andar_esquerda[0]
+
+        # Mantém os pés do personagem no chão
+        x = self.rect.centerx - self.imagem.get_width() // 2
+
+        y = self.rect.bottom - self.imagem.get_height()
 
         tela.blit(
             self.imagem,
             (
-                self.rect.x - camera_x,
-                self.rect.y
+                x - camera_x,
+                y
             )
         )
