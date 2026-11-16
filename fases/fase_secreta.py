@@ -12,6 +12,9 @@ class FaseSecreta:
 
     def __init__(self):
 
+        # Inverte os controles do jogador
+        self.inverter_controles = True
+
         # ==================================================
         # PLATAFORMAS
         # ==================================================
@@ -26,7 +29,7 @@ class FaseSecreta:
 
         # Carrega o fundo da fase
         self.fundo = pygame.image.load(
-            "assets/fundo.jpg"
+            "assets\\fundo_secreto.png"
         ).convert()
 
         # Ajusta o fundo ao tamanho da tela

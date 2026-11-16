@@ -929,7 +929,7 @@ while rodando:
     elif estado == "jogo":
 
         # Movimenta o jogador
-        player.mover(teclas)
+        player.mover(teclas,getattr(fase_atual, "inverter_controles", False))
 
 
         # Atualiza física e colisões

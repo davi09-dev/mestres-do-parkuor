@@ -146,19 +146,29 @@ class Player(Entidade):
 
         return frames
 
-    def mover(self, teclas):
+    def mover(self, teclas, inverter=False):
 
         self.vel_x = 0
 
         if teclas[pygame.K_a]:
 
-            self.vel_x = -self.velocidade
-            self.direcao = -1
+            if inverter:
+                self.vel_x = self.velocidade
+                self.direcao = 1
+
+            else:
+                self.vel_x = -self.velocidade
+                self.direcao = -1
 
         if teclas[pygame.K_d]:
 
-            self.vel_x = self.velocidade
-            self.direcao = 1
+            if inverter:
+                self.vel_x = -self.velocidade
+                self.direcao = -1
+
+            else:
+                self.vel_x = self.velocidade
+                self.direcao = 1
 
     def pular(self):
 
