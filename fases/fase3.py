@@ -18,7 +18,7 @@ class Fase3:
 
         # Carrega o cenário da Fase 3
         self.fundo = pygame.image.load(
-            "assets/cenario3.jpg"
+            "assets/fundo3.png"
         ).convert()
 
         # Ajusta o fundo ao tamanho da tela
